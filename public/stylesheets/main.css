@@ -1,0 +1,71 @@
+@import 'shared/variables.css';
+@import 'shared/header.css';
+@import 'shared/index.css';
+
+
+:root {
+    /* font-family: 'Gotham Rounded'; */
+    font-size: 20px;
+    color: var(--color-text-light)
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+    color: var(--color-text-light);
+}
+
+body {
+    background: linear-gradient(to right, var(--color-background-dark), var(--color-background-light));
+}
+
+.page-size{
+    min-height: 80vh;
+}
+
+.container-large {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    height: 100%;
+    max-width: 2000px;
+    padding: 0;
+
+}
+
+.container-small {
+    max-width: 1000px;
+    padding: 0;
+}
+
+.inner-container {
+    margin: 0 2rem;
+}
+
+.ribbon {
+    background-color: rgb(184, 184, 184);
+    padding: 20px 10%;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.page-header {
+    font-size: 2rem;
+    font-weight: 500;
+}
+
+.error-message {
+    color: hsl(var(--color-danger-hue), 100%, 50%)
+}
