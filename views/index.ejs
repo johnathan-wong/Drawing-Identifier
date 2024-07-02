@@ -1,37 +1,11 @@
-<h1>Draw a Digit</h1>
-<canvas id="canvas" width="280" height="280"></canvas>
+<h3> Drawing Identifier </h3>
 <div>
-  <button class="canvas-reset">Reset</button>
-  <button class="canvas-submit">Submit</button>
+    <h4>Welcome to the Drawing Identifier</h4>
+    <p>This site's main purpose is to let you expkire the fascinating world of machine learning. Our platform allow you to interact with our models, and let you visualize how the CNN function. We have designed two models, one is digit detection, and the other one is drawing detection. This will provide you an engaging and educational experience. </p>
+    <h5>Technology</h5>
+    <p>In our models, we have used ConvnetJS to trained them. Which allow you to train your own neural network on your browser. </p>
 </div>
+
 <div>
-  <button class="change-model" data-model="model1">Model 1</button>
-  <button class="change-model" data-model="model2">Model 2</button>
-  <button class="change-model" data-model="model3">Model 3</button>
-  <button class="change-model user-model" data-model="model4" disabled>User Saved Model</button>
+    
 </div>
-<p id="prediction"></p>
-<div id="detail-block"></div>
-
-
-<textarea id="code" name="code">
-// Build Your Own Network
-layer_defs = [];
-layer_defs.push({type:'input', out_sx:28, out_sy:28, out_depth:1});
-layer_defs.push({type:'conv', sx:5, filters:8, stride:1, pad:2, activation:'relu'});
-layer_defs.push({type:'pool', sx:2, stride:2});
-layer_defs.push({type:'conv', sx:5, filters:16, stride:1, pad:2, activation:'relu'});
-layer_defs.push({type:'pool', sx:3, stride:3});
-layer_defs.push({type:'softmax', num_classes:10});
-
-net = new convnetjs.Net();
-net.makeLayers(layer_defs);
-
-trainer = new convnetjs.SGDTrainer(net, {method:'adadelta', batch_size:20, l2_decay:0.001});
-</textarea>
-<button class="save-train">Save This Network</button>
-<button class="start-train">New Training</button>
-<button class="pause-train">Pause Training</button>
-<!-- <canvas id="test-canvas" width="28" height="28"></canvas> -->
-<div id="network-visualization"></div>
-<div id="model-visualizer"></div>

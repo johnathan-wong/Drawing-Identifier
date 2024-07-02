@@ -87,14 +87,19 @@ export function setupCanvas() {
     });
 }
 
+function setupVisualizer(){
+    const canvas = document.getElementById('nn-visualizer');
+}
+
 export function resetCanvas() {
     const canvas = document.getElementById("canvas");
     const ctx = canvas.getContext('2d');
     ctx.fillStyle = 'black';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
+    submitCanvas(false);
 }
 
-export function submitCanvas() {
+export function submitCanvas(guess = true) {
     const canvas = document.getElementById("canvas");
     const prediction = document.getElementById("prediction");
     const imageData = resizeImage(canvas);
@@ -109,7 +114,6 @@ export function submitCanvas() {
     // visualizeNetwork(net, vol);
     const probabilityVolume = net.forward(vol);
     const scores = probabilityVolume.w;
-    console.log(scores);
 
     let predictedClass = -1;
     let maxScore = -Infinity;
@@ -120,31 +124,13 @@ export function submitCanvas() {
         }
     }
     // Print the predicted class
-    prediction.innerText = `Predicted class: ${predictedClass}`;
+    if (guess){
+        prediction.innerText = `Predicted class: ${labels[predictedClass]}`;
+    }
+    
+    printInfo(net);
 
-
-    const containerBlock = document.getElementById('detail-block');
-    containerBlock.innerHTML = '';
-    net.layers.forEach((layer, layerIndex) => {
-        // Create a new div element
-        const layerDiv = document.createElement('div');
-
-        // Create a new h3 element
-        const layerHeading = document.createElement('h3');
-        console.log(layer);
-        // Set the text content of the h3 element to the layer type
-        layerHeading.textContent = `Layer ${layerIndex}: ${layer.layer_type}`;
-        // activations
-        layerDiv.appendChild(layerHeading);
-        if (layer.out_act) {
-            const layerActivations = layer.out_act.w;
-            const activationImages = createImageFromData(layerActivations, layer.out_sx, layer.out_sy, layer.out_depth);
-            activationImages.forEach(activationImage => {
-                layerDiv.appendChild(activationImage);
-            });
-        }
-        containerBlock.appendChild(layerDiv);
-    });
+    
 
 
     
@@ -225,6 +211,29 @@ function grayScaleImage(imageData) {
     return grayscaleArray;
 }
 
+function printInfo(net){
+    const containerBlock = document.getElementById('detail-block');
+    containerBlock.innerHTML = '';
+    net.layers.forEach((layer, layerIndex) => {
+        // Create a new div element
+        const layerDiv = document.createElement('div');
+
+        // Create a new h3 element
+        const layerHeading = document.createElement('h3');
+        // Set the text content of the h3 element to the layer type
+        layerHeading.textContent = `Layer ${layerIndex}: ${layer.layer_type}`;
+        // activations
+        layerDiv.appendChild(layerHeading);
+        if (layer.out_act) {
+            const layerActivations = layer.out_act.w;
+            const activationImages = createImageFromData(layerActivations, layer.out_sx, layer.out_sy, layer.out_depth);
+            activationImages.forEach(activationImage => {
+                layerDiv.appendChild(activationImage);
+            });
+        }
+        containerBlock.appendChild(layerDiv);
+    });
+}
 
 // User Editor
 
@@ -241,3 +250,15 @@ export function setupUserInputs() {
     editor.setSize(null, null); // width is auto, height is 400px
 }
 
+
+// classes
+class Pixel {
+    constructor(x,y,parent){
+        thix.x = x;
+        this.y = y;
+        this.parent = parent;
+    }
+    getParent(){
+        return this.parent;
+    }
+}

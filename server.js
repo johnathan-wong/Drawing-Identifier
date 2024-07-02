@@ -11,6 +11,9 @@ const util = require('util');
 const app = express()
 
 const indexRouter = require('./routes/index')
+const digitDrawRouter = require('./routes/digit-draw')
+const quickDrawRouter = require('./routes/quick-draw')
+
 
 app.set('view engine', 'ejs')
 app.set('views', __dirname + '/views')
@@ -23,6 +26,8 @@ app.use(express.urlencoded({ extended: true }));
 
 
 app.use('/', indexRouter) 
+app.use('/digitdraw', digitDrawRouter) 
+app.use('/quickdraw', quickDrawRouter) 
 
 
 app.listen(process.env.PORT || 3000)

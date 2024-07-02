@@ -47,7 +47,11 @@ document.addEventListener('click', function (event) {
 
 // Initialization
 document.addEventListener('DOMContentLoaded', function () {
-    canvasFunctions.setupCanvas();
-    canvasFunctions.setupUserInputs();
-    CNNModel.initCNNModels();
+    if (window.location.pathname === '/digitdraw' || window.location.pathname === '/quickdraw') {
+        if (window.location.pathname === '/digitdraw'){
+            canvasFunctions.setupUserInputs();
+        }
+        canvasFunctions.setupCanvas();
+        CNNModel.initCNNModels();
+    }
 });

@@ -1,41 +1,46 @@
-import { createImageFromData } from './canvas.js';
+// import { json } from "express";
+import { submitCanvas } from "./canvas.js";
+
+// URLs for the MNIST dataset images and labels
+// const MNIST_IMAGES_SPRITE_PATH = 'https://storage.googleapis.com/learnjs-data/model-builder/mnist_images.png';
+// const MNIST_LABELS_PATH = 'https://storage.googleapis.com/learnjs-data/model-builder/mnist_labels_uint8';
 
 // Initiate CNN
 export async function initCNNModels() {
     varSetUp();
     await loadPreTrainedModel();
     await trainModel();
+    submitCanvas(false);
 }
 
 
 // Pre-Trained 
 export async function loadPreTrainedModel() {
-    // Load Pre-Trained Models from Server At Start
-    await fetch('/models')
-        .then(response => response.json())
-        .then(models => {
-            // Access each model individually
-            const model1 = models.model1;
-            const model2 = models.model2;
-            const model3 = models.model3;
+    try {
+        const response = await fetch(`${window.location.origin}${window.location.pathname}/models`);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const models = await response.json();
+        const { model1, model2, model3 } = models;
+        // save to global
+        window.training = { models: { model1, model2, model3 } };
+        window.curModel = model1;
 
-            // Store the models for later use
-            window.training.models = { model1, model2, model3 };
-        })
-        .catch(error => {
-            console.error('Error fetching models:', error);
-        });
-    window.curModel = window.training.models.model1;
+    } catch (error) {
+        console.error('Error fetching models:', error);
+    }
 }
 
-function varSetUp() {
+async function varSetUp() {
+    const response = await fetch(`${window.location.origin}${window.location.pathname}/labels`);
+    window.labels = await response.json();
     window.training = {
         net: null,
         models: {},
         training_step: 0,
         training_pause: true,
         training_id: null
-        // Add any other properties you need
     };
 }
 
@@ -67,6 +72,10 @@ export async function trainModel(isResume = false) {
         window.training.trainer = userTrainer;
     }
 
+    // TODO: use TensorFlow DataSet to train
+    // const c = await loadMNISTData();
+
+    // OLD CODE
     const pauseFlag = await trainInBatches(window.training.training_step, 50000, 20, userTrainer, window.training.training_id);
     if (pauseFlag) {
         // reset training var
@@ -74,8 +83,47 @@ export async function trainModel(isResume = false) {
     }
 }
 
+async function loadMNISTData() {
+    const [imagesResponse, labelsResponse] = await Promise.all([
+        fetch('https://storage.googleapis.com/learnjs-data/model-builder/mnist_images.png'),
+        fetch('https://storage.googleapis.com/learnjs-data/model-builder/mnist_labels_uint8')
+      ]);
+
+      const imgBlob = await imagesResponse.blob();
+      const labelsArrayBuffer = await labelsResponse.arrayBuffer();
+      
+      const img = await createImageBitmap(imgBlob);
+      const labels = new Uint8Array(labelsArrayBuffer);
+
+      const canvas = document.createElement('canvas');
+      canvas.width = img.width;
+      canvas.height = img.height;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0);
+
+      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      const datasetBytesBuffer = new Uint8Array(imageData.data.length / 4);
+
+      for (let i = 0; i < imageData.data.length / 4; ++i) {
+        datasetBytesBuffer[i] = imageData.data[i * 4];
+      }
+
+      const images = [];
+      for (let i = 0; i < labels.length; ++i) {
+        const image = datasetBytesBuffer.slice(i * 28 * 28, (i + 1) * 28 * 28);
+        images.push(Array.from(image).map(x => x / 255)); // Normalize pixel values
+      }
+
+      console.log(images.length);
+      return { images, labels: Array.from(labels) };
+}
+
+
 async function getUserNetwork() {
     const textarea = document.getElementById("code");
+    if (textarea == null) {
+        return
+    }
     const editor = textarea.editor;
     const code = editor.getValue();
 
