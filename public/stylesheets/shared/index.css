@@ -2,3 +2,8 @@ canvas {
     border: 3px solid rgb(255, 255, 255);
     background-color: grey;
 }
+
+.outer-container{
+    padding: 10%;
+    padding-top: 0;
+}
