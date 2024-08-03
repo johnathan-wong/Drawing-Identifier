@@ -31,7 +31,7 @@ jobs:
         run: zip release.zip ./* -r
 
       - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: node-app
           path: release.zip
@@ -47,7 +47,7 @@ jobs:
 
     steps:
       - name: Download artifact from build job
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: node-app
 
@@ -55,15 +55,15 @@ jobs:
         run: unzip release.zip
       
       - name: Login to Azure
-        uses: azure/login@v1
+        uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_62682CB7F39B44E9B26E55B150A3796B }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_4520DF7972C345B8B06C21AC2C29F7E2 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_AD018D3B9B9F47F0907E4E4160D46D03 }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_C5D59431895F421CB77A95CAD18AE3EA }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_1B6DBBB121654A4587376755B1444676 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_C996C9D445DF4437BAFA949FC665161D }}
 
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
-        uses: azure/webapps-deploy@v2
+        uses: azure/webapps-deploy@v3
         with:
           app-name: 'neuralnetworkvisualizer'
           slot-name: 'Production'
