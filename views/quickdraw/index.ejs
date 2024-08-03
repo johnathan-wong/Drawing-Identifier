@@ -1,13 +1,50 @@
-<h1>Draw Something</h1>
-<canvas id="canvas" width="280" height="280"></canvas>
-<div>
-  <button class="canvas-reset">Reset</button>
-  <button class="canvas-submit">Submit</button>
+<h1 class="mb-4">Draw Something</h1>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="mb-3 d-flex justify-content-center align-items-center">
+        <!-- Canvas -->
+        <canvas id="canvas" width="280" height="280"></canvas>
+      </div>
+      <div class="button-grid">
+        <div class="models-buttons">
+          <button class="grid-item change-model flex-fill" data-model="model1">Model 1</button>
+          <button class="grid-item change-model flex-fill" data-model="model2">Model 2</button>
+          <button class="grid-item change-model flex-fill" data-model="model3">Model 3</button>
+        </div>
+        <div class="control-buttons mt-1">
+          <button class="grid-item canvas-reset">Reset</button>
+          <button class="grid-item canvas-submit">Submit</button>
+        </div>
+      </div>
+      <!-- Prediction Text -->
+      <div class="container my-3">
+        <h3>Prediction:</h3>
+        <h3 id="prediction"></h3>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <!-- Labels Class -->
+      <div class="grid-container">
+        <div id="labels-table1-container" class="table-container">
+          <!-- First part of labels table with header -->
+          <table id="labels-table" class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Label</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Labels will be dynamically inserted here -->
+            </tbody>
+          </table>
+        </div>
+    </div>
+  </div>
 </div>
-<div>
-  <button class="change-model" data-model="model1">LeNet5</button>
-  <button class="change-model" data-model="model2">Model 2</button>
-  <button class="change-model" data-model="model3">Model 3</button>
+<div class="container">
+  <!-- Layer Display -->
+  <h2>CNN Network Layer Showcase</h2>
+  <div id="detail-block"></div>
 </div>
-<p id="prediction"></p>
-<div id="detail-block"></div>

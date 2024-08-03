@@ -21,15 +21,22 @@ h3,
 h4,
 h5,
 h6,
+table,
+ol,
+li,
 p {
     color: var(--color-text-light);
+}
+
+h3{
+    font-size: 1.2rem;
 }
 
 body {
     background: linear-gradient(to right, var(--color-background-dark), var(--color-background-light));
 }
 
-.page-size{
+.page-size {
     min-height: 80vh;
 }
 
@@ -68,4 +75,78 @@ body {
 
 .error-message {
     color: hsl(var(--color-danger-hue), 100%, 50%)
+}
+
+/* BS */
+.container {
+    margin-bottom: 50px;
+}
+
+/* Grid container for tables */
+.grid-container {
+    display: grid;
+}
+
+.grid-container table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.grid-container th,
+.grid-container td {
+    border: 2px solid black;
+    padding: 8px;
+}
+
+/* button grid */
+.button-grid {
+    display: grid;
+    grid-template-areas:
+        "models"
+        "controls";
+    grid-template-rows: auto auto; /* Adjust row heights automatically */
+    gap: 0.125rem; /* Space between rows */
+    width: 100%;
+    max-width: 800px; /* Optional: limit the maximum width */
+    margin: auto; /* Center the grid horizontally */
+}
+
+/* Style for the model buttons container */
+.models-buttons {
+    grid-area: models;
+    display: flex; /* Use flexbox to align items horizontally */
+    flex-wrap: wrap; /* Allow items to wrap to the next line if necessary */
+    gap: 1rem; /* Space between buttons */
+    justify-content: space-between;
+}
+
+/* Style for the control buttons container */
+.control-buttons {
+    grid-area: controls;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Two equal columns */
+    gap: 1rem; /* Space between buttons */
+}
+
+/* Style for each grid item */
+.grid-item {
+    padding: 0.5rem;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* width: 100%; */
+}
+
+/* Optional: Specific styling for buttons */
+.grid-item.canvas-reset {
+    background-color: #dc3545;
+}
+
+.grid-item.canvas-submit {
+    background-color: #28a745;
 }

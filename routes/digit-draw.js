@@ -60,7 +60,6 @@ router.get('/labels', async (req, res) => {
 
 router.get('/models', async (req, res) => {
     // Return Pre-trained Models
-    console.log('hit');
     try {
         const model1Path = path.join(__dirname, `../models/digit-draw_Model/10k-trained_model.json`);
         const model2Path = path.join(__dirname, `../models/digit-draw_Model/50k-trained_model.json`);

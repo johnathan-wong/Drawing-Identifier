@@ -1,37 +1,83 @@
-<h1>Draw a Digit</h1>
-<canvas id="canvas" width="280" height="280"></canvas>
-<div>
-  <button class="canvas-reset">Reset</button>
-  <button class="canvas-submit">Submit</button>
+<h1 class="mb-4">Draw a Digit</h1>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="mb-3 d-flex justify-content-center align-items-center">
+        <!-- Canvas -->
+        <canvas id="canvas" width="280" height="280"></canvas>
+      </div>
+
+      <div class="button-grid">
+        <div class="models-buttons">
+          <button class="grid-item change-model flex-fill" data-model="model1">Model 1</button>
+          <button class="grid-item change-model flex-fill" data-model="model2">Model 2</button>
+          <button class="grid-item change-model flex-fill" data-model="model3">Model 3</button>
+          <button class="grid-item change-model flex-fill user-model" data-model="model4" disabled>User Model</button>
+        </div>
+        <div class="control-buttons mt-1">
+          <button class="grid-item canvas-reset">Reset</button>
+          <button class="grid-item canvas-submit">Submit</button>
+        </div>
+      </div>
+
+      <!-- Prediction Text -->
+      <div class="container my-3">
+        <h3>Prediction:</h3>
+        <h3 id="prediction"></h3>
+      </div>
+
+    </div>
+    <div class="col-md-6">
+      <!-- Labels Class -->
+      <div class="grid-container">
+        <div id="labels-table1-container" class="table-container">
+          <!-- First part of labels table with header -->
+          <table id="labels-table" class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Label</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Labels will be dynamically inserted here -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
-<div>
-  <button class="change-model" data-model="model1">Model 1</button>
-  <button class="change-model" data-model="model2">Model 2</button>
-  <button class="change-model" data-model="model3">Model 3</button>
-  <button class="change-model user-model" data-model="model4" disabled>User Saved Model</button>
+
+<!-- Layers Display -->
+<div class="container">
+  <h2>CNN Network Layer Showcase</h2>
+  <div id="detail-block"></div>
 </div>
-<p id="prediction"></p>
-<div id="detail-block"></div>
 
 
-<textarea id="code" name="code">
-// Build Your Own Network
-layer_defs = [];
-layer_defs.push({type:'input', out_sx:28, out_sy:28, out_depth:1});
-layer_defs.push({type:'conv', sx:5, filters:8, stride:1, pad:2, activation:'relu'});
-layer_defs.push({type:'pool', sx:2, stride:2});
-layer_defs.push({type:'conv', sx:5, filters:16, stride:1, pad:2, activation:'relu'});
-layer_defs.push({type:'pool', sx:3, stride:3});
-layer_defs.push({type:'softmax', num_classes:10});
+<div class="container">
+  <h2>Build Your Own CNN Network</h2>
+  <textarea id="code" name="code">
+  // Build Your Own Network
+  layer_defs = [];
+  layer_defs.push({type:'input', out_sx:28, out_sy:28, out_depth:1});
+  layer_defs.push({type:'conv', sx:5, filters:8, stride:1, pad:2, activation:'relu'});
+  layer_defs.push({type:'pool', sx:2, stride:2});
+  layer_defs.push({type:'conv', sx:5, filters:16, stride:1, pad:2, activation:'relu'});
+  layer_defs.push({type:'pool', sx:3, stride:3});
+  layer_defs.push({type:'softmax', num_classes:10});
 
-net = new convnetjs.Net();
-net.makeLayers(layer_defs);
+  net = new convnetjs.Net();
+  net.makeLayers(layer_defs);
 
-trainer = new convnetjs.SGDTrainer(net, {method:'adadelta', batch_size:20, l2_decay:0.001});
-</textarea>
-<button class="save-train">Save This Network</button>
-<button class="start-train">New Training</button>
-<button class="pause-train">Pause Training</button>
-<!-- <canvas id="test-canvas" width="28" height="28"></canvas> -->
-<div id="network-visualization"></div>
-<div id="model-visualizer"></div>
+  trainer = new convnetjs.SGDTrainer(net, {method:'adadelta', batch_size:20, l2_decay:0.001});
+  </textarea>
+  <button class="save-train">Save This Network</button>
+  <button class="start-train">New Training</button>
+  <button class="pause-train">Pause Training</button>
+  <!-- <canvas id="test-canvas" width="28" height="28"></canvas> -->
+  <div id="network-visualization"></div>
+  <div id="model-visualizer"></div>
+</div>
+<!-- User's Custom Network -->

@@ -125,7 +125,7 @@ export function submitCanvas(guess = true) {
     }
     // Print the predicted class
     if (guess){
-        prediction.innerText = `Predicted class: ${labels[predictedClass]}`;
+        prediction.innerText = `${labels[predictedClass]}`;
     }
     
     printInfo(net);
